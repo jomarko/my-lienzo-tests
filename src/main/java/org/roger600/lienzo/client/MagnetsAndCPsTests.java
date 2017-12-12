@@ -10,7 +10,6 @@ import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
-import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
@@ -21,6 +20,7 @@ import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
@@ -54,7 +54,8 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest, HasMe
         wires_manager.getMagnetManager().createMagnets( child1 );
 
         Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
-        child1.addChild(circle1, WiresLayoutContainer.Layout.CENTER);
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer) child1.getLayoutContainer();
+        container.add(circle1, WiresCardinalLayoutContainer.Cardinals.CENTER);
 
         child1.setDraggable( true );
         TestsUtils.addResizeHandlers( child1 );

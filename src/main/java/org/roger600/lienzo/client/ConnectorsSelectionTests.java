@@ -21,6 +21,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.handlers.WiresConnectorControl;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
@@ -30,8 +31,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-
-import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.CENTER;
 
 public class ConnectorsSelectionTests extends FlowPanel implements MyLienzoTest,
                                                                    HasButtons {
@@ -60,13 +59,15 @@ public class ConnectorsSelectionTests extends FlowPanel implements MyLienzoTest,
         wiresShape0.setLocation(new Point2D(400, 400));
         wires_manager.register( wiresShape0 );
         wiresShape0.getContainer().setUserData("A");
-        wiresShape0.addChild(new Circle(30), CENTER);
+        WiresCardinalLayoutContainer ws0Container = (WiresCardinalLayoutContainer) wiresShape0.getLayoutContainer();
+        ws0Container.add(new Circle(30), WiresCardinalLayoutContainer.Cardinals.CENTER);
 
         WiresShape wiresShape1 = new WiresShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#00CC00")).setDraggable(true);
         wiresShape1.setLocation(new Point2D(50, 50));
         wires_manager.register( wiresShape1 );
         wiresShape1.getContainer().setUserData("A");
-        wiresShape1.addChild(new Star(5, 15, 40), CENTER);
+        WiresCardinalLayoutContainer ws1Container = (WiresCardinalLayoutContainer) wiresShape0.getLayoutContainer();
+        ws1Container.add(new Star(5, 15, 40), WiresCardinalLayoutContainer.Cardinals.CENTER);
 
         WiresShape wiresShape2 = new WiresShape(new MultiPath().rect(0, 0, 300, 200).setStrokeColor("#0000CC").setFillColor("#FFFFFF")).setDraggable(true);
         wiresShape2.setLocation(new Point2D(50, 100));

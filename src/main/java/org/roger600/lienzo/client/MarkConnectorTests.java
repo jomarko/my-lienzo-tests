@@ -7,10 +7,10 @@ import com.ait.lienzo.client.core.shape.MultiPathDecorator;
 import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
 import com.ait.lienzo.client.core.shape.wires.MagnetManager;
 import com.ait.lienzo.client.core.shape.wires.WiresConnector;
-import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -36,7 +36,8 @@ public class MarkConnectorTests extends FlowPanel implements MyLienzoTest, HasMe
         Circle startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
         startEventShape.setLocation(new Point2D(startX, startY));
         startEventShape.getContainer().setUserData("event");
-        startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer)startEventShape.getLayoutContainer();
+        container.add(startEventCircle, WiresCardinalLayoutContainer.Cardinals.NORTH);
         wires_manager.getMagnetManager().createMagnets( startEventShape );
         startEventShape.setDraggable( true );
         TestsUtils.addResizeHandlers( startEventShape );
@@ -118,5 +119,5 @@ public class MarkConnectorTests extends FlowPanel implements MyLienzoTest, HasMe
         layer.add( line );
         return line;
     }
-    
+
 }

@@ -21,6 +21,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.handlers.WiresConnectorControl;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.client.widget.DragConstraintEnforcer;
@@ -34,8 +35,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-
-import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.CENTER;
 
 public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest,
                                                                     HasButtons {
@@ -199,8 +198,8 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
 
         wiresManager.register(redShape);
         redShape.getContainer().setUserData("A");
-        redShape.addChild(new Circle(30),
-                          CENTER);
+        WiresCardinalLayoutContainer redShapeContainer = (WiresCardinalLayoutContainer)redShape.getLayoutContainer();
+        redShapeContainer.add(new Circle(30),WiresCardinalLayoutContainer.Cardinals.CENTER);
 
         greenShape = new WiresShape(new MultiPath().rect(0,
                                                          0,
@@ -210,10 +209,8 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
 
         wiresManager.register(greenShape);
         greenShape.getContainer().setUserData("A");
-        greenShape.addChild(new Star(5,
-                                     15,
-                                     40),
-                            CENTER);
+        WiresCardinalLayoutContainer greenShapeContainer = (WiresCardinalLayoutContainer)greenShape.getLayoutContainer();
+        greenShapeContainer.add(new Star(5, 15, 40), WiresCardinalLayoutContainer.Cardinals.CENTER);
 
         parentShape = new WiresShape(new MultiPath().rect(0,
                                                           0,

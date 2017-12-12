@@ -14,7 +14,6 @@ import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.ait.lienzo.client.core.shape.wires.MagnetManager;
 import com.ait.lienzo.client.core.shape.wires.WiresConnection;
 import com.ait.lienzo.client.core.shape.wires.WiresContainer;
-import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
@@ -26,6 +25,7 @@ import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
@@ -158,10 +158,11 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
         startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
         startEventShape.setLocation(new Point2D(startX, startY));
         startEventShape.getContainer().setUserData("event");
-        startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer)startEventShape.getLayoutContainer();
+        container.add(startEventCircle, WiresCardinalLayoutContainer.Cardinals.NORTH);
         wires_manager.getMagnetManager().createMagnets( startEventShape );
         // startEventShape.addChild(new Rectangle(50, 50).setX(0).setY(0).setFillColor(ColorName.BLACK), WiresPrimitivesContainer.Layout.LEFT);
-        // ( (WiresLayoutContainer) startEventShape.getGroup()).add(startEventCircle, WiresLayoutContainer.Layout.CENTER);
+        // ( (WiresBoxLayoutContainer) startEventShape.getGroup()).add(startEventCircle, WiresBoxLayoutContainer.Layout.CENTER);
 
         // Green task node.
         WiresShape taskNodeShape = new WiresShape( new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00") );

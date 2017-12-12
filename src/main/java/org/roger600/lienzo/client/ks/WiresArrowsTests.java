@@ -16,12 +16,11 @@ import com.ait.lienzo.client.core.shape.wires.WiresContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 import org.roger600.lienzo.client.MyLienzoTest;
-
-import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.CENTER;
 
 public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
 
@@ -136,8 +135,8 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
 
         wires_manager.register(wiresShape0);
         wiresShape0.getContainer().setUserData("A");
-        wiresShape0.addChild(new Circle(30),
-                             CENTER);
+        WiresCardinalLayoutContainer ws0Container = (WiresCardinalLayoutContainer)wiresShape0.getLayoutContainer();
+        ws0Container.add(new Circle(30), WiresCardinalLayoutContainer.Cardinals.CENTER);
 
         WiresShape wiresShape1 = new WiresShape(new MultiPath().rect(0,
                                                                      0,
@@ -147,10 +146,8 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
 
         wires_manager.register(wiresShape1);
         wiresShape1.getContainer().setUserData("A");
-        wiresShape1.addChild(new Star(5,
-                                      15,
-                                      40),
-                             CENTER);
+        WiresCardinalLayoutContainer ws1Container = (WiresCardinalLayoutContainer)wiresShape0.getLayoutContainer();
+        ws1Container.add(new Star(5, 15, 40), WiresCardinalLayoutContainer.Cardinals.CENTER);
 
         WiresShape wiresShape2 = new WiresShape(new MultiPath().rect(0,
                                                                      0,

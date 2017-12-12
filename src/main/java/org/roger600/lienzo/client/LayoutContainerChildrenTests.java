@@ -6,9 +6,10 @@ import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
 import com.ait.lienzo.client.core.shape.wires.WiresContainer;
-import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -28,7 +29,7 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
         final WiresManager wires_manager = WiresManager.get(layer);
 
         wires_manager.setContainmentAcceptor(new IContainmentAcceptor() {
-            
+
             @Override
             public boolean containmentAllowed(WiresContainer parent, WiresShape[] children) {
                 return true;
@@ -39,7 +40,7 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
                 return true;
             }
         });
-        
+
         final MultiPath parentMultiPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#000000");
         parentShape = new WiresShape(parentMultiPath);
 
@@ -50,9 +51,8 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
         addRCircle();
 
         wires_manager.register( parentShape );
-        parentShape.setDraggable(true);
+        parentShape.setDraggable(true).setLocation(new Point2D(0, 0));
         wires_manager.getMagnetManager().createMagnets(parentShape);
-
     }
 
     @Override
@@ -101,7 +101,8 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
 
     private void addRectangle() {
         rectangle = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
-        parentShape.addChild(rectangle, WiresLayoutContainer.Layout.CENTER);
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer) parentShape.getLayoutContainer();
+        container.add(rectangle, WiresCardinalLayoutContainer.Cardinals.CENTER);
         batch();
     }
 
@@ -112,7 +113,8 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
 
     private void addRCircle() {
         circle = new Circle( 50 ).setFillColor("#CCBB00").setDraggable(false);
-        parentShape.addChild(circle, WiresLayoutContainer.Layout.RIGHT);
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer) parentShape.getLayoutContainer();
+        container.add(circle, WiresCardinalLayoutContainer.Cardinals.EAST);
         batch();
     }
 

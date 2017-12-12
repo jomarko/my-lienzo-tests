@@ -3,8 +3,6 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
-import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
-import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndEvent;
@@ -13,6 +11,7 @@ import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -45,15 +44,19 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
 
     public void showLayoutButtons( Panel panel ) {
 
-        WiresLayoutContainer.Layout[] layouts = new LayoutContainer.Layout[] {
-                WiresLayoutContainer.Layout.TOP,
-                WiresLayoutContainer.Layout.LEFT,
-                WiresLayoutContainer.Layout.CENTER,
-                WiresLayoutContainer.Layout.RIGHT,
-                WiresLayoutContainer.Layout.BOTTOM
+        WiresCardinalLayoutContainer.Cardinals[] layouts = new WiresCardinalLayoutContainer.Cardinals[] {
+                WiresCardinalLayoutContainer.Cardinals.CENTER,
+                WiresCardinalLayoutContainer.Cardinals.EAST,
+                WiresCardinalLayoutContainer.Cardinals.WEST,
+                WiresCardinalLayoutContainer.Cardinals.NORTH,
+                WiresCardinalLayoutContainer.Cardinals.NORTHEAST,
+                WiresCardinalLayoutContainer.Cardinals.NORTHWEST,
+                WiresCardinalLayoutContainer.Cardinals.SOUTH,
+                WiresCardinalLayoutContainer.Cardinals.SOUTHEAST,
+                WiresCardinalLayoutContainer.Cardinals.SOUTHWEST
         };
 
-        for ( final WiresLayoutContainer.Layout layout : layouts ) {
+        for ( final WiresCardinalLayoutContainer.Cardinals layout : layouts ) {
 
             Button button = new Button( layout.name() );
 
@@ -68,8 +71,9 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
                     }
 
                     currentShape = create( 800, 400, 200, 200, "#CC00EE", 1, "#FFFFFF" );
+                    WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer) currentShape.getLayoutContainer();
                     Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#00CCCC").setDraggable(false);
-                    currentShape.addChild(circle1, layout);
+                    container.add(circle1, layout);
 
                 }
             } );
@@ -80,32 +84,38 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
     }
 
     private void testAllLayouts( final Layer layer) {
-        WiresShape shapeTop = create( 400, 50, 100, 100, "#CC0000", 1, "#FFFFFF" );
-        Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
-        shapeTop.addChild(circle1, WiresLayoutContainer.Layout.TOP);
 
-        WiresShape shapeLeft = create( 50, 200, 100, 100, "#00CC00", 1, "#FFFFFF" );
-        Rectangle circle2 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
-        shapeLeft.addChild(circle2, WiresLayoutContainer.Layout.LEFT);
+        WiresShape shapeTop = create( 400, 50, 100, 100, "#CC0000", 1, "#FFFFFF" );
+        WiresCardinalLayoutContainer topContainer = (WiresCardinalLayoutContainer)shapeTop.getLayoutContainer();
+        Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
+        topContainer.add(circle1, WiresCardinalLayoutContainer.Cardinals.NORTH);
+
+        final WiresShape shapeWest = create( 50, 200, 100, 100, "#00CC00", 1, "#FFFFFF" );
+        WiresCardinalLayoutContainer westContainer = (WiresCardinalLayoutContainer)shapeTop.getLayoutContainer();
+        final Rectangle circle2 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
+        westContainer.add(circle2, WiresCardinalLayoutContainer.Cardinals.WEST);
 
         WiresShape shapeCenter = create( 400, 200, 100, 100, "#0000CC", 1, "#FFFFFF" );
-        Rectangle circle3 = new Rectangle( 50, 50).setFillColor("#CCCCCC").setDraggable(false);
-        shapeCenter.addChild(circle3, WiresLayoutContainer.Layout.CENTER);
+        WiresCardinalLayoutContainer centerContainer = (WiresCardinalLayoutContainer)shapeTop.getLayoutContainer();
+        Rectangle circle3 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
+        centerContainer.add(circle3, WiresCardinalLayoutContainer.Cardinals.CENTER);
 
-        final WiresShape shapeRight = create( 800, 200, 100, 100, "#0000FF", 1, "#FFFFFF" );
-        final Rectangle circle4 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
-        shapeRight.addChild(circle4, WiresLayoutContainer.Layout.RIGHT);
+        WiresShape shapeEast = create( 800, 200, 100, 100, "#0000FF", 1, "#FFFFFF" );
+        WiresCardinalLayoutContainer eastContainer = (WiresCardinalLayoutContainer)shapeTop.getLayoutContainer();
+        Rectangle circle4 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
+        eastContainer.add(circle4, WiresCardinalLayoutContainer.Cardinals.EAST);
 
-        WiresShape shapeBottom = create( 400, 400, 100, 100, "#FF00FF", 1, "#FFFFFF" );
+        WiresShape shapeSouth = create( 400, 400, 100, 100, "#FF00FF", 1, "#FFFFFF" );
+        WiresCardinalLayoutContainer southContainer = (WiresCardinalLayoutContainer)shapeTop.getLayoutContainer();
         Rectangle circle5 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
-        shapeBottom.addChild(circle5, WiresLayoutContainer.Layout.BOTTOM);
+        southContainer.add(circle5, WiresCardinalLayoutContainer.Cardinals.SOUTH);
 
         Button buttonResizeChild = new Button( "Resize child on RIGHT rectangle." );
         buttonResizeChild.addClickHandler( new ClickHandler() {
             @Override
             public void onClick( ClickEvent clickEvent ) {
-                circle4.setWidth( 60 ).setHeight( 30 );
-                shapeRight.refresh();
+                circle2.setWidth( 60 ).setHeight( 30 );
+                shapeWest.refresh();
                 layer.batch();
             }
         } );
@@ -122,7 +132,7 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
                                final String strokeColor) {
 
         WiresShape endEventShape = new WiresShape( new MultiPath().rect( 0, 0, w, h )
-                .setStrokeColor( strokeColor ).setFillColor( fillColor ).setFillAlpha( fillAlpha ) );
+                .setStrokeColor( strokeColor ).setFillColor( fillColor ).setFillAlpha( fillAlpha ), new WiresCardinalLayoutContainer() );
         endEventShape.setLocation(new Point2D(x , y));
         wires_manager.register( endEventShape );
         wires_manager.getMagnetManager().createMagnets( endEventShape );

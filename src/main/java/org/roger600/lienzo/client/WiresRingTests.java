@@ -15,10 +15,9 @@ import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.user.client.ui.FlowPanel;
-
-import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.CENTER;
 
 public class WiresRingTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
@@ -42,8 +41,8 @@ public class WiresRingTests extends FlowPanel implements MyLienzoTest, HasMediat
                 new WiresShape( new MultiPath().rect( 0, 0, size, size ) )
                         .setDraggable( true );
         wiresShape0.setLocation(new Point2D(200, 200));
-
-        wiresShape0.addChild( ring, CENTER );
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer)wiresShape0.getLayoutContainer();
+        container.add( ring, WiresCardinalLayoutContainer.Cardinals.CENTER );
 
         wires_manager.register( wiresShape0 );
         wires_manager.getMagnetManager().createMagnets( wiresShape0 );

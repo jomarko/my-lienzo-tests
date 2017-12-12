@@ -3,9 +3,9 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Text;
-import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -38,7 +38,8 @@ public class FontTests extends FlowPanel implements MyLienzoTest, HasMediators, 
                 .setFontSize( SIZE )
                 .setStrokeWidth( BORDER_SIZE )
                 .setStrokeColor( COLOR );
-        shape.addChild( taskText, LayoutContainer.Layout.BOTTOM );
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer) shape.getLayoutContainer();
+        container.add(taskText, WiresCardinalLayoutContainer.Cardinals.CENTER);
         wiresManager.register( shape );
         shape.setDraggable(true);
         wiresManager.getMagnetManager().createMagnets( shape );
@@ -59,7 +60,8 @@ public class FontTests extends FlowPanel implements MyLienzoTest, HasMediators, 
                 .setStrokeWidth( BORDER_SIZE )
                 .setStrokeColor( COLOR )
                 .setRotation( 270 );
-        shape.addChild( taskText, LayoutContainer.Layout.LEFT );
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer) shape.getLayoutContainer();
+        container.add(taskText, WiresCardinalLayoutContainer.Cardinals.CENTER);
         wiresManager.register( shape );
         shape.setDraggable(true);
         wiresManager.getMagnetManager().createMagnets( shape );

@@ -6,9 +6,9 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.Ring;
-import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.BoundingBox;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
@@ -116,15 +116,17 @@ public class BasicWiresShapesTests extends FlowPanel implements MyLienzoTest {
         setResizable( polygon );
 
         WiresShape polygonWithIcon =  createPolygon();
-        polygonWithIcon.addChild( new Circle( RADIUS / 3 ), LayoutContainer.Layout.CENTER );
+        WiresCardinalLayoutContainer polyginWithIconContainer = (WiresCardinalLayoutContainer)polygonWithIcon.getLayoutContainer();
+        polyginWithIconContainer.add(new Circle( RADIUS / 3 ), WiresCardinalLayoutContainer.Cardinals.CENTER );
         Group polygonIconGlyph = createGlyph( polygonWithIcon );
         box4.add( polygonIconGlyph );
         polygonWithIcon.setLocation(new Point2D(700, 100));
         setResizable( polygonWithIcon );
 
         WiresShape ringShape =  createRing();
+        WiresCardinalLayoutContainer ringShapeContainer = (WiresCardinalLayoutContainer)ringShape.getLayoutContainer();
         Ring ring = new Ring( RADIUS / 2, RADIUS );
-        ringShape.addChild( ring, LayoutContainer.Layout.CENTER );
+        ringShapeContainer.add(ring, WiresCardinalLayoutContainer.Cardinals.CENTER );
         Group ringGlyph = createGlyph( ringShape );
         box5.add( ringGlyph );
         ringShape.setLocation(new Point2D(900, 100));

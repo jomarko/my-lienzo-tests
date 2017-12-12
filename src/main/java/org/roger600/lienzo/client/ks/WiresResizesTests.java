@@ -6,8 +6,17 @@ import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Text;
-import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.client.core.shape.wires.IControlHandle;
+import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,8 +26,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import org.roger600.lienzo.client.HasButtons;
 import org.roger600.lienzo.client.MyLienzoTest;
-
-import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.*;
 
 public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasButtons {
 
@@ -88,7 +95,7 @@ public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasBut
         text.setText( t );
     }
 
-    private WiresShape create( String color, double size, LayoutContainer.Layout layout ) {
+    private WiresShape create( String color, double size, WiresCardinalLayoutContainer.Cardinals cardinal ) {
         text.setText( "[" + SIZE +", " + SIZE + "]" );
         final MultiPath path = new MultiPath().rect(0, 0, size, size)
                 .setStrokeWidth(1)
@@ -96,10 +103,11 @@ public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasBut
                 .setFillColor( ColorName.LIGHTGREY );
         final WiresShape wiresShape0 =
                 new WiresShape( path )
-                        .setDraggable(true)
-                        .addChild( new Circle( size / 4 ).setFillColor( color ), layout )
-                        .addChild( text, CENTER );
+                        .setDraggable(true);
         wiresShape0.setLocation(new Point2D(400 ,200));
+        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer)wiresShape0.getLayoutContainer();
+        container.add( new Circle( size / 4 ).setFillColor( color ), cardinal );
+        container.add(text, WiresCardinalLayoutContainer.Cardinals.CENTER );
 
         wires_manager.register( wiresShape0 );
         wires_manager.getMagnetManager().createMagnets(wiresShape0);
@@ -176,22 +184,22 @@ public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasBut
     }
 
     private WiresShape left() {
-        return create( "#CC00CC", SIZE, LEFT );
+        return create("#CC00CC", SIZE, WiresCardinalLayoutContainer.Cardinals.WEST );
     }
 
     private WiresShape right() {
-        return create( "#0000CC", SIZE, RIGHT );
+        return create("#0000CC", SIZE, WiresCardinalLayoutContainer.Cardinals.EAST );
     }
 
     private WiresShape center() {
-        return create( "#CC0000", SIZE, CENTER );
+        return create("#CC0000", SIZE, WiresCardinalLayoutContainer.Cardinals.CENTER );
     }
 
     private WiresShape top() {
-        return create( "#00CC00", SIZE, TOP );
+        return create("#00CC00", SIZE, WiresCardinalLayoutContainer.Cardinals.NORTH );
     }
 
     private WiresShape bottom() {
-        return create( "#CCCC00", SIZE, BOTTOM );
+        return create("#CCCC00", SIZE, WiresCardinalLayoutContainer.Cardinals.SOUTH );
     }
 }
