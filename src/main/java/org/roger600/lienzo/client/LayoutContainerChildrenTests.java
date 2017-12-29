@@ -8,7 +8,7 @@ import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
 import com.ait.lienzo.client.core.shape.wires.WiresContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.layouts.impl.CardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -55,6 +55,21 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
         wires_manager.getMagnetManager().createMagnets(parentShape);
     }
 
+    private void addRectangle() {
+        rectangle = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
+        CardinalLayoutContainer container = (CardinalLayoutContainer) parentShape.getLayoutContainer();
+        container.add(rectangle, CardinalLayoutContainer.Cardinal.EAST);
+        batch();
+    }
+
+
+    private void addRCircle() {
+        circle = new Circle( 50 ).setFillColor("#CCBB00").setDraggable(false);
+        CardinalLayoutContainer container = (CardinalLayoutContainer) parentShape.getLayoutContainer();
+        container.add(circle, CardinalLayoutContainer.Cardinal.CENTER);
+        batch();
+    }
+
     @Override
     public void setButtonsPanel( Panel panel ) {
 
@@ -99,22 +114,8 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
         panel.add( buttonAC );
     }
 
-    private void addRectangle() {
-        rectangle = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
-        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer) parentShape.getLayoutContainer();
-        container.add(rectangle, WiresCardinalLayoutContainer.Cardinals.CENTER);
-        batch();
-    }
-
     private void removeRectangle() {
         parentShape.removeChild( rectangle );
-        batch();
-    }
-
-    private void addRCircle() {
-        circle = new Circle( 50 ).setFillColor("#CCBB00").setDraggable(false);
-        WiresCardinalLayoutContainer container = (WiresCardinalLayoutContainer) parentShape.getLayoutContainer();
-        container.add(circle, WiresCardinalLayoutContainer.Cardinals.EAST);
         batch();
     }
 

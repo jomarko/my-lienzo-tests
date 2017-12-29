@@ -1,16 +1,8 @@
 package org.roger600.lienzo.client.ks;
 
-import com.ait.lienzo.client.core.shape.Circle;
-import com.ait.lienzo.client.core.shape.Layer;
-import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.MultiPathDecorator;
-import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
-import com.ait.lienzo.client.core.shape.wires.MagnetManager;
-import com.ait.lienzo.client.core.shape.wires.WiresConnector;
-import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
-import com.ait.lienzo.client.core.shape.wires.WiresManager;
-import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
+import com.ait.lienzo.client.core.shape.*;
+import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.wires.layouts.impl.CardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -36,8 +28,8 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     h).setStrokeWidth(5).setStrokeColor("#CC0000"))
                         .setDraggable(true);
         wiresShape0.setLocation(new Point2D(400, 400));
-        WiresCardinalLayoutContainer ws0Container = (WiresCardinalLayoutContainer)wiresShape0.getLayoutContainer();
-        ws0Container.add(new Circle(radius).setFillColor("#CC0000"), WiresCardinalLayoutContainer.Cardinals.CENTER);
+        CardinalLayoutContainer ws0Container = (CardinalLayoutContainer)wiresShape0.getLayoutContainer();
+        ws0Container.add(new Circle(radius).setFillColor("#CC0000"), CardinalLayoutContainer.Cardinal.CENTER);
 
         wires_manager.register(wiresShape0);
         wires_manager.getMagnetManager().createMagnets(wiresShape0);
@@ -50,8 +42,8 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     h).setStrokeWidth(5).setStrokeColor("#00CC00"))
                         .setDraggable(true);
         wiresShape1.setLocation(new Point2D(400, 50));
-        WiresCardinalLayoutContainer ws1Container = (WiresCardinalLayoutContainer)wiresShape1.getLayoutContainer();
-        ws1Container.add(new Circle(radius).setFillColor("#00CC00"), WiresCardinalLayoutContainer.Cardinals.NORTH);
+        CardinalLayoutContainer ws1Container = (CardinalLayoutContainer)wiresShape1.getLayoutContainer();
+        ws1Container.add(new Circle(radius).setFillColor("#00CC00"), CardinalLayoutContainer.Cardinal.NORTH);
 
         wires_manager.register(wiresShape1);
         wires_manager.getMagnetManager().createMagnets(wiresShape1);
@@ -64,8 +56,8 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     h).setStrokeWidth(5).setStrokeColor("#0000CC"))
                         .setDraggable(true);
         wiresShape2.setLocation(new Point2D(750, 400));
-        WiresCardinalLayoutContainer ws2Container = (WiresCardinalLayoutContainer)wiresShape2.getLayoutContainer();
-        ws2Container.add(new Circle(radius).setFillColor("#0000CC"), WiresCardinalLayoutContainer.Cardinals.EAST);
+        CardinalLayoutContainer ws2Container = (CardinalLayoutContainer)wiresShape2.getLayoutContainer();
+        ws2Container.add(new Circle(radius).setFillColor("#0000CC"), CardinalLayoutContainer.Cardinal.EAST);
 
         wires_manager.register(wiresShape2);
         wires_manager.getMagnetManager().createMagnets(wiresShape2);
@@ -78,8 +70,8 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     h).setStrokeWidth(5).setStrokeColor("#CCCC00"))
                         .setDraggable(true);
         wiresShape3.setLocation(new Point2D(400, 700));
-        WiresCardinalLayoutContainer ws3Container = (WiresCardinalLayoutContainer)wiresShape3.getLayoutContainer();
-        ws3Container.add(new Circle(radius).setFillColor("#CCCC00"), WiresCardinalLayoutContainer.Cardinals.SOUTH);
+        CardinalLayoutContainer ws3Container = (CardinalLayoutContainer)wiresShape3.getLayoutContainer();
+        ws3Container.add(new Circle(radius).setFillColor("#CCCC00"), CardinalLayoutContainer.Cardinal.SOUTH);
 
         wires_manager.register(wiresShape3);
         wires_manager.getMagnetManager().createMagnets(wiresShape3);
@@ -92,8 +84,8 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     h).setStrokeWidth(5).setStrokeColor("#CC00CC"))
                         .setDraggable(true);
         wiresShape4.setLocation(new Point2D(50, 400));
-        WiresCardinalLayoutContainer ws4Container = (WiresCardinalLayoutContainer)wiresShape4.getLayoutContainer();
-        ws4Container.add(new Circle(radius).setFillColor("#CC00CC"), WiresCardinalLayoutContainer.Cardinals.WEST);
+        CardinalLayoutContainer ws4Container = (CardinalLayoutContainer)wiresShape4.getLayoutContainer();
+        ws4Container.add(new Circle(radius).setFillColor("#CC00CC"), CardinalLayoutContainer.Cardinal.WEST);
 
         wires_manager.register(wiresShape4);
         wires_manager.getMagnetManager().createMagnets(wiresShape4);

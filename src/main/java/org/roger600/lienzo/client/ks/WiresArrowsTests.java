@@ -1,22 +1,8 @@
 package org.roger600.lienzo.client.ks;
 
-import com.ait.lienzo.client.core.shape.Circle;
-import com.ait.lienzo.client.core.shape.IContainer;
-import com.ait.lienzo.client.core.shape.Layer;
-import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.MultiPathDecorator;
-import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
-import com.ait.lienzo.client.core.shape.Star;
-import com.ait.lienzo.client.core.shape.wires.IConnectionAcceptor;
-import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
-import com.ait.lienzo.client.core.shape.wires.MagnetManager;
-import com.ait.lienzo.client.core.shape.wires.WiresConnection;
-import com.ait.lienzo.client.core.shape.wires.WiresConnector;
-import com.ait.lienzo.client.core.shape.wires.WiresContainer;
-import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
-import com.ait.lienzo.client.core.shape.wires.WiresManager;
-import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.layouts.cardinals.WiresCardinalLayoutContainer;
+import com.ait.lienzo.client.core.shape.*;
+import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.wires.layouts.impl.CardinalLayoutContainer;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -135,8 +121,8 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
 
         wires_manager.register(wiresShape0);
         wiresShape0.getContainer().setUserData("A");
-        WiresCardinalLayoutContainer ws0Container = (WiresCardinalLayoutContainer)wiresShape0.getLayoutContainer();
-        ws0Container.add(new Circle(30), WiresCardinalLayoutContainer.Cardinals.CENTER);
+        CardinalLayoutContainer ws0Container = (CardinalLayoutContainer)wiresShape0.getLayoutContainer();
+        ws0Container.add(new Circle(30), CardinalLayoutContainer.Cardinal.CENTER);
 
         WiresShape wiresShape1 = new WiresShape(new MultiPath().rect(0,
                                                                      0,
@@ -146,8 +132,8 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
 
         wires_manager.register(wiresShape1);
         wiresShape1.getContainer().setUserData("A");
-        WiresCardinalLayoutContainer ws1Container = (WiresCardinalLayoutContainer)wiresShape0.getLayoutContainer();
-        ws1Container.add(new Star(5, 15, 40), WiresCardinalLayoutContainer.Cardinals.CENTER);
+        CardinalLayoutContainer ws1Container = (CardinalLayoutContainer)wiresShape1.getLayoutContainer();
+        ws1Container.add(new Star(5, 15, 40), CardinalLayoutContainer.Cardinal.CENTER);
 
         WiresShape wiresShape2 = new WiresShape(new MultiPath().rect(0,
                                                                      0,

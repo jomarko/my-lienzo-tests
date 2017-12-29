@@ -1,10 +1,6 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.mediator.EventFilter;
-import com.ait.lienzo.client.core.mediator.IEventFilter;
-import com.ait.lienzo.client.core.mediator.Mediators;
-import com.ait.lienzo.client.core.mediator.MousePanMediator;
-import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
+import com.ait.lienzo.client.core.mediator.*;
 import com.ait.lienzo.client.core.shape.GridLayer;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Line;
@@ -13,19 +9,9 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 import org.roger600.lienzo.client.casemodeller.CaseModellerContainmentTests;
-import org.roger600.lienzo.client.ks.CardinalIntersectKSTests;
-import org.roger600.lienzo.client.ks.MultiPathResizeTests;
-import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
-import org.roger600.lienzo.client.ks.WiresArrowsTests;
-import org.roger600.lienzo.client.ks.WiresDockingTests;
-import org.roger600.lienzo.client.ks.WiresResizesTests;
-import org.roger600.lienzo.client.ks.WiresSquaresTests;
+import org.roger600.lienzo.client.ks.*;
 
 public class LienzoTests implements EntryPoint {
 
@@ -37,7 +23,7 @@ public class LienzoTests implements EntryPoint {
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
             new SelectionManagerTests(),
-            new TextWrapTests(),
+            // TODO: new TextWrapTests(),
             new AutoMagnetsConnectorsTests(),
             new CardinalIntersectSimpleTest(),
             new WiresDragHandlersTests(),
@@ -47,34 +33,34 @@ public class LienzoTests implements EntryPoint {
             new SVGTests(),
             new UXSVGTests(),
             new DragConstraintsTests(),
-            new FontTests(),
+            // TODO: new FontTests(),
             new ImagesTests(),
-            new MultiPathShapesTests(),
-            new WiresRingTests(),
-            new BasicWiresShapesTests(),
+            // TODO: new MultiPathShapesTests(),
+            // TODO: new WiresRingTests(),
+            // TODO: new BasicWiresShapesTests(),
             new GlyphPositionsAndScaleTests(),
             new TransformTests(),
-            new MagnetsAndCPsTests(),
+            // TODO: new MagnetsAndCPsTests(),
             new BoundingBoxTests(),
             new WiresDragAndMoveTests(),
             new ShapeResizeTests(),
             new DragBoundsTests(),
             new LayoutContainerChildrenTests(),
-            new LayoutContainerChildrenTests2(),
-            new ChildRectangleResizeTests(),
-            new ChildCircleResizeTests(),
-            new StandaloneConnectorsTests(),
-            new ConnectionAndMagnetsTests(),
-            new ConnectionAcceptorsTests(),
-            new ConnectorsSelectionTests(),
-            new ConnectorsAndParentsTests(),
-            new ConnectorsAndParentsTests2(),
+            // TODO: new LayoutContainerChildrenTests2(),
+            // TODO: new ChildRectangleResizeTests(),
+            // TODO: new ChildCircleResizeTests(),
+            // TODO: new StandaloneConnectorsTests(),
+            // TODO: new ConnectionAndMagnetsTests(),
+            // TODO: new ConnectionAcceptorsTests(),
+            // TODO: new ConnectorsSelectionTests(),
+            // TODO: new ConnectorsAndParentsTests(),
+            // TODO: new ConnectorsAndParentsTests2(),
             new DeleteChildTests(),
             new DockingTests(),
-            new MarkConnectorTests(),
+            // TODO: new MarkConnectorTests(),
             new MediatorsTests(),
             new MediatorsTests2(),
-            new WiresTests(),
+            // TODO: new WiresTests(),
             new MultiPathAttributesChangedTests(),
             new CaseModellerContainmentTests(),
             // From Lienzo KS
