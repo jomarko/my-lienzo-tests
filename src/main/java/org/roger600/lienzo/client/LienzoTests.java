@@ -1,6 +1,10 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.mediator.*;
+import com.ait.lienzo.client.core.mediator.EventFilter;
+import com.ait.lienzo.client.core.mediator.IEventFilter;
+import com.ait.lienzo.client.core.mediator.Mediators;
+import com.ait.lienzo.client.core.mediator.MousePanMediator;
+import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
 import com.ait.lienzo.client.core.shape.GridLayer;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Line;
@@ -9,9 +13,18 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.*;
-import org.roger600.lienzo.client.casemodeller.CaseModellerContainmentTests;
-import org.roger600.lienzo.client.ks.*;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import org.roger600.lienzo.client.ks.CardinalIntersectKSTests;
+import org.roger600.lienzo.client.ks.MultiPathResizeTests;
+import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
+import org.roger600.lienzo.client.ks.WiresArrowsTests;
+import org.roger600.lienzo.client.ks.WiresDockingTests;
+import org.roger600.lienzo.client.ks.WiresResizesTests;
+import org.roger600.lienzo.client.ks.WiresSquaresTests;
 
 public class LienzoTests implements EntryPoint {
 
@@ -62,7 +75,7 @@ public class LienzoTests implements EntryPoint {
             new MediatorsTests2(),
             // TODO: new WiresTests(),
             new MultiPathAttributesChangedTests(),
-            new CaseModellerContainmentTests(),
+            // TODO new CaseModellerContainmentTests(),
             // From Lienzo KS
             new WiresAlignDistroTests(),
             new CardinalIntersectKSTests(),

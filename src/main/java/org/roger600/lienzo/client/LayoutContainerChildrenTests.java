@@ -115,12 +115,12 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
     }
 
     private void removeRectangle() {
-        parentShape.removeChild( rectangle );
+        parentShape.remove( rectangle );
         batch();
     }
 
     private void removeCircle() {
-        parentShape.removeChild( circle );
+        parentShape.remove( circle );
         batch();
     }
 

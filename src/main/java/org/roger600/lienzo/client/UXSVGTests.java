@@ -57,7 +57,7 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
                 .setStrokeAlpha( 1 );
         final WiresShape pictureShape = new WiresShape( picturePath );
         resize( picture, w, h );
-        pictureShape.addChild( picture );
+        pictureShape.add( picture );
         wires_manager.register( pictureShape );
         wires_manager.getMagnetManager().createMagnets( pictureShape );
 
