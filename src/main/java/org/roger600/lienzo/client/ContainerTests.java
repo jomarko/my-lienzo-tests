@@ -37,7 +37,7 @@ public class ContainerTests extends FlowPanel implements MyLienzoTest, HasMediat
                 }
                 GWT.log("acceptContainment - Parent is " + parent.toString());
                 return true;
-                //return !parent.getContainer().getUserData().equals(child.getContainer().getUserData());
+                //return !parent.get().getUserData().equals(child.get().getUserData());
             }
         };
 
