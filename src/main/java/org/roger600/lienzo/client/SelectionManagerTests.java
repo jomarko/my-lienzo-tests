@@ -121,6 +121,12 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
                 }
                 return accepts;
             }
+
+            @Override
+            public boolean sibling(WiresContainer parent,
+                                   WiresContainer shape) {
+                return false;
+            }
         });
 
         wires_manager.setConnectionAcceptor(IConnectionAcceptor.ALL);

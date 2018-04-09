@@ -29,7 +29,9 @@ public class CaseModellerShapeControl implements WiresShapeControl {
         shapeControl = new WiresShapeControlImpl(parentPicker,
                                                  new WiresMagnetsControlImpl(shape),
                                                  null,
-                                                 new CaseModellerContainmentControl(parentPicker));
+                                                 new CaseModellerContainmentControl(parentPicker),
+                                                 // TODO
+                                                 null);
     }
 
     @Override
