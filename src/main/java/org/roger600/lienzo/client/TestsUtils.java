@@ -2,6 +2,8 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
+import com.ait.lienzo.client.core.event.NodeMouseDoubleClickEvent;
+import com.ait.lienzo.client.core.event.NodeMouseDoubleClickHandler;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.wires.IControlHandle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
@@ -9,6 +11,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.client.core.util.Geometry;
 import com.ait.lienzo.shared.core.types.ColorName;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 public class TestsUtils {
 
@@ -82,24 +85,22 @@ public class TestsUtils {
         return path.setStrokeColor("#000000").setFillColor(ColorName.BLACK );
     }
 
-    public static void addResizeHandlers( final WiresShape shape ) {
-        shape.setResizable( true ).getGroup().addNodeMouseClickHandler(new NodeMouseClickHandler()
-        {
+    public static HandlerRegistration addResizeHandlers(final WiresShape shape ) {
+        return shape.setResizable(true).getGroup().addNodeMouseDoubleClickHandler(new NodeMouseDoubleClickHandler() {
             @Override
-            public void onNodeMouseClick(NodeMouseClickEvent event)
-            {
-                final IControlHandleList controlHandles = shape.loadControls( IControlHandle.ControlHandleStandardType.RESIZE );
+            public void onNodeMouseDoubleClick(NodeMouseDoubleClickEvent event) {
+                final IControlHandleList controlHandles = shape.loadControls(IControlHandle.ControlHandleStandardType.RESIZE);
 
-                if ( null != controlHandles ) {
+                if (null != controlHandles) {
 
-                    if ( event.isShiftKeyDown() ) {
+                    if (!controlHandles.isVisible()) {
                         controlHandles.show();
                     } else {
                         controlHandles.hide();
                     }
-
                 }
             }
         });
     }
+
 }

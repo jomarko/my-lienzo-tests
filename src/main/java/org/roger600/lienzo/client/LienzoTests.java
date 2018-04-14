@@ -18,14 +18,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.roger600.lienzo.client.casemodeller.CaseModellerContainmentTests;
-import org.roger600.lienzo.client.ks.CardinalIntersectKSTests;
-import org.roger600.lienzo.client.ks.MultiPathResizeTests;
-import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
-import org.roger600.lienzo.client.ks.WiresArrowsTests;
-import org.roger600.lienzo.client.ks.WiresDockingTests;
-import org.roger600.lienzo.client.ks.WiresResizesTests;
-import org.roger600.lienzo.client.ks.WiresSquaresTests;
 
 public class LienzoTests implements EntryPoint {
 
@@ -36,7 +28,8 @@ public class LienzoTests implements EntryPoint {
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
-            new SelectionManagerTests(),
+            new MemoryTests(),
+            /*new SelectionManagerTests(),
             new TextWrapTests(),
             new AutoMagnetsConnectorsTests(),
             new CardinalIntersectSimpleTest(),
@@ -84,7 +77,7 @@ public class LienzoTests implements EntryPoint {
             new WiresArrowsTests(),
             new WiresSquaresTests(),
             new WiresResizesTests(),
-            new WiresDockingTests(),
+            new WiresDockingTests(),*/
     };
 
     private static final int MAX_BUTTONS_ROW = 7;
