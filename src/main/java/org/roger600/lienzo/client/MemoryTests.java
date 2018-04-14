@@ -87,7 +87,6 @@ public class MemoryTests implements MyLienzoTest,
         wiresManager.getMagnetManager().createMagnets(shape);
         shapeHandlerRegs.push(TestsUtils.addResizeHandlers(shape));
         shapes.push(shape);
-        layer.draw();
         current++;
     }
 
@@ -97,7 +96,6 @@ public class MemoryTests implements MyLienzoTest,
             final HandlerRegistration reg = shapeHandlerRegs.pop();
             wiresManager.deregister(shape);
             reg.removeHandler();
-            layer.draw();
             current--;
         }
     }
@@ -126,7 +124,6 @@ public class MemoryTests implements MyLienzoTest,
             targetReg = TestsUtils.addResizeHandlers(target);
 
             connect(layer, source.getMagnets(), 3, target.getMagnets(), 7, wiresManager);
-            layer.draw();
         }
     }
 
@@ -147,7 +144,6 @@ public class MemoryTests implements MyLienzoTest,
             target = null;
             targetReg = null;
         }
-        layer.draw();
     }
 
     private void destroy() {
@@ -158,6 +154,7 @@ public class MemoryTests implements MyLienzoTest,
         shapeHandlerRegs = null;
         shapes.clear();
         shapes = null;
+        testRemoveConnector();
         WiresManager.remove(wiresManager);
         lienzoPanel.removeAll();
         lienzoPanel.removeFromParent();
@@ -177,6 +174,7 @@ public class MemoryTests implements MyLienzoTest,
             @Override
             public void onClick(ClickEvent clickEvent) {
                 createShape();
+                layer.draw();
             }
         });
         panel.add(addShape);
@@ -186,6 +184,7 @@ public class MemoryTests implements MyLienzoTest,
             @Override
             public void onClick(ClickEvent clickEvent) {
                 createParentShape();
+                layer.draw();
             }
         });
         panel.add(parentShape);
@@ -195,6 +194,7 @@ public class MemoryTests implements MyLienzoTest,
             @Override
             public void onClick(ClickEvent clickEvent) {
                 removeShape();
+                layer.draw();
             }
         });
         panel.add(removeShape);
@@ -204,6 +204,7 @@ public class MemoryTests implements MyLienzoTest,
             @Override
             public void onClick(ClickEvent clickEvent) {
                 testRemoveConnector();
+                layer.draw();
             }
         });
         panel.add(testRemoveConnector);
@@ -213,6 +214,7 @@ public class MemoryTests implements MyLienzoTest,
             @Override
             public void onClick(ClickEvent clickEvent) {
                 testConnector();
+                layer.draw();
             }
         });
         panel.add(testConnector);
