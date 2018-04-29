@@ -14,10 +14,10 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.roger600.lienzo.client.widgets.TabPanel;
 
 public class LienzoTests implements EntryPoint {
 
@@ -28,7 +28,7 @@ public class LienzoTests implements EntryPoint {
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
-            new MemoryTests(),
+            new SomeSimpleTest()
             /*new SelectionManagerTests(),
             new TextWrapTests(),
             new AutoMagnetsConnectorsTests(),
@@ -86,7 +86,8 @@ public class LienzoTests implements EntryPoint {
     private HorizontalPanel screenButtonsPanel = new HorizontalPanel();
     private HorizontalPanel buttonsRowPanel;
     private int buttonsPanelSize = 0;
-    private FlowPanel testsPanel = new FlowPanel();
+    private TabPanel testsPanel;
+    private static int index;
 
     public void onModuleLoad()
     {
@@ -108,6 +109,12 @@ public class LienzoTests implements EntryPoint {
 
         }
 
+        testsPanel = new TabPanel();
+        testsPanel.asWidget().getElement().getStyle().setMargin( 10, Style.Unit.PX );
+        testsPanel.asWidget().getElement().getStyle().setBorderWidth( 1, Style.Unit.PX );
+        testsPanel.asWidget().getElement().getStyle().setBorderStyle( Style.BorderStyle.SOLID );
+        testsPanel.asWidget().getElement().getStyle().setBorderColor( "#000000" );
+
         mainPanel.add( buttonsPanel );
         mainPanel.add( screenButtonsPanel );
         mainPanel.add( testsPanel );
@@ -117,18 +124,12 @@ public class LienzoTests implements EntryPoint {
     private void createPanelForTest( MyLienzoTest test ) {
 
         screenButtonsPanel.clear();
-        testsPanel.clear();
-        testsPanel.getElement().getStyle().setMargin( 10, Style.Unit.PX );
-        testsPanel.getElement().getStyle().setBorderWidth( 1, Style.Unit.PX );
-        testsPanel.getElement().getStyle().setBorderStyle( Style.BorderStyle.SOLID );
-        testsPanel.getElement().getStyle().setBorderColor( "#000000" );
 
         final LienzoPanel panel = new LienzoPanel(WIDE,
                                                   HIGH);
         applyGrid( panel );
         final Layer layer = new Layer();
 
-        testsPanel.add( panel );
         layer.setTransformable(true);
         panel.add(layer);
 
@@ -147,6 +148,10 @@ public class LienzoTests implements EntryPoint {
         test.test( layer );
 
         layer.draw();
+
+        final String fqcn = test.getClass().getName();
+        String title = fqcn.substring(fqcn.lastIndexOf('.') + 1, fqcn.length()) + index++;
+        testsPanel.add(panel, title);
 
     }
 
