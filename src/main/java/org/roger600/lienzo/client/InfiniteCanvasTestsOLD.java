@@ -5,14 +5,16 @@ import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2D;
-import com.ait.lienzo.client.widget.panel.BoundsPanel;
-import com.ait.lienzo.client.widget.panel.impl.LienzoScrollablePanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.roger600.lienzo.client.widget.InfiniteLayer;
+import org.roger600.lienzo.client.widget.InfiniteLienzoLayer;
+import org.roger600.lienzo.client.widget.InfiniteLienzoPanel;
+import org.roger600.lienzo.client.widget.InfiniteWiresLayer;
 
-public class InfiniteCanvasTests implements EntryPoint
+public class InfiniteCanvasTestsOLD implements EntryPoint
 {
     private static final int     PANEL_WIDTH  = 600;
 
@@ -20,9 +22,11 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private static final boolean IS_WIRES     = true;
 
-    private BoundsPanel  panel;
+    private InfiniteLienzoPanel panel;
 
-    private WiresManager wiresManager;
+    private InfiniteLayer       layer;
+
+    private WiresManager        wiresManager;
 
     public void onModuleLoad()
     {
@@ -32,13 +36,14 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private void build()
     {
+        panel = new InfiniteLienzoPanel(PANEL_WIDTH, PANEL_HEIGHT);
         if (IS_WIRES)
         {
-            panel = LienzoScrollablePanel.newWiresPanel(PANEL_WIDTH, PANEL_HEIGHT);
+            layer = new InfiniteWiresLayer();
         }
         else
         {
-            panel = LienzoScrollablePanel.newPrimitivePanel(PANEL_WIDTH, PANEL_HEIGHT);
+            layer = new InfiniteLienzoLayer();
         }
 
         final HorizontalPanel v = new HorizontalPanel();
@@ -49,8 +54,7 @@ public class InfiniteCanvasTests implements EntryPoint
         RootPanel.get().add(v);
         v.add(panel);
 
-        final Layer layer = new Layer();
-        panel.set(layer);
+        panel.add(layer);
 
         wiresManager = WiresManager.get(layer);
         wiresManager.setContainmentAcceptor(IContainmentAcceptor.ALL);
@@ -112,6 +116,6 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private Layer getLayer()
     {
-        return panel.getLayer();
+        return layer;
     }
 }
