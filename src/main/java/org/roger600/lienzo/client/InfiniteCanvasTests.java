@@ -5,7 +5,7 @@ import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2D;
-import com.ait.lienzo.client.widget.panel.BoundsPanel;
+import com.ait.lienzo.client.widget.panel.LienzoBoundsPanel;
 import com.ait.lienzo.client.widget.panel.impl.LienzoScrollablePanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
@@ -20,9 +20,9 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private static final boolean IS_WIRES     = true;
 
-    private BoundsPanel  panel;
+    private LienzoBoundsPanel panel;
 
-    private WiresManager wiresManager;
+    private WiresManager      wiresManager;
 
     public void onModuleLoad()
     {
