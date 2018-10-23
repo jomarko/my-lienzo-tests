@@ -16,13 +16,17 @@ import org.roger600.lienzo.client.widget.InfiniteWiresLayer;
 
 public class InfiniteCanvasTests implements EntryPoint
 {
+    private static final int     PANEL_WIDTH  = 600;
+
+    private static final int     PANEL_HEIGHT = 600;
+
+    private static final boolean IS_WIRES     = true;
+
     private InfiniteLienzoPanel panel;
 
     private InfiniteLayer       layer;
 
     private WiresManager        wiresManager;
-
-    private static final boolean IS_WIRES = true;
 
     public void onModuleLoad()
     {
@@ -32,7 +36,7 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private void build()
     {
-        panel = new InfiniteLienzoPanel(600, 600);
+        panel = new InfiniteLienzoPanel(PANEL_WIDTH, PANEL_HEIGHT);
         if (IS_WIRES)
         {
             layer = new InfiniteWiresLayer();
@@ -51,6 +55,13 @@ public class InfiniteCanvasTests implements EntryPoint
         v.add(panel);
 
         panel.add(layer);
+
+        wiresManager = WiresManager.get(layer);
+        wiresManager.setContainmentAcceptor(IContainmentAcceptor.ALL);
+        wiresManager.setDockingAcceptor(IDockingAcceptor.ALL);
+        wiresManager.setControlPointsAcceptor(IControlPointsAcceptor.ALL);
+        wiresManager.setConnectionAcceptor(IConnectionAcceptor.ALL);
+        wiresManager.setLocationAcceptor(ILocationAcceptor.ALL);
     }
 
     private void draw()
@@ -85,12 +96,6 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private void drawWiresThings()
     {
-        wiresManager = WiresManager.get(layer);
-        wiresManager.setContainmentAcceptor(IContainmentAcceptor.ALL);
-        wiresManager.setDockingAcceptor(IDockingAcceptor.ALL);
-        wiresManager.setControlPointsAcceptor(IControlPointsAcceptor.ALL);
-        wiresManager.setConnectionAcceptor(IConnectionAcceptor.ALL);
-        wiresManager.setLocationAcceptor(ILocationAcceptor.ALL);
 
         MultiPath redPath = new MultiPath().rect(0, 0, 100, 100)
                                            .setFillColor("#FF0000");
@@ -99,6 +104,14 @@ public class InfiniteCanvasTests implements EntryPoint
         redShape.setLocation(new Point2D(100, 100));
         redShape.setDraggable(true).getContainer().setUserData("red");
         TestsUtils.addResizeHandlers(redShape);
+
+        MultiPath bluePath = new MultiPath().rect(0, 0, 100, 100)
+                                            .setFillColor("#0000FF");
+        WiresShape blueShape = new WiresShape(bluePath);
+        wiresManager.register(blueShape);
+        blueShape.setLocation(new Point2D(550, 100));
+        blueShape.setDraggable(true).getContainer().setUserData("blue");
+        TestsUtils.addResizeHandlers(blueShape);
     }
 
     private Layer getLayer()

@@ -29,7 +29,7 @@ public class InfiniteWiresLayer extends InfiniteLayer
     }
 
     @Override
-    public NFastArrayList<Bounds> getShapeBounds()
+    public NFastArrayList<Bounds> getShapesBounds()
     {
         final NFastArrayList<Bounds>     result      = new NFastArrayList<>();
         final NFastArrayList<WiresShape> childShapes = wiresLayer.get().getChildShapes();

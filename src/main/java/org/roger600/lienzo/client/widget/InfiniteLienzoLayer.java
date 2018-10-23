@@ -6,7 +6,7 @@ import com.ait.tooling.nativetools.client.collection.NFastArrayList;
 
 public class InfiniteLienzoLayer extends InfiniteLayer
 {
-    public NFastArrayList<Bounds> getShapeBounds()
+    public NFastArrayList<Bounds> getShapesBounds()
     {
         NFastArrayList<Bounds>        result = new NFastArrayList<>();
         NFastArrayList<IPrimitive<?>> shapes = getChildNodes();

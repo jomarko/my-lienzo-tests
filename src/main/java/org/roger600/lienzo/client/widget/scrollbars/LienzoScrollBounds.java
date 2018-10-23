@@ -43,7 +43,7 @@ class LienzoScrollBounds
     {
         List<Double> result = new LinkedList<>();
 
-        NFastArrayList<Bounds> shapeBounds = getLayer().getShapeBounds();
+        NFastArrayList<Bounds> shapeBounds = getLayer().getShapesBounds();
         if (null != shapeBounds)
         {
             for (Bounds bounds : shapeBounds)

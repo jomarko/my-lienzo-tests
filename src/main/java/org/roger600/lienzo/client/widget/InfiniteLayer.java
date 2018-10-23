@@ -20,7 +20,7 @@ public abstract class InfiniteLayer extends Layer
                                  0);
     }
 
-    public abstract NFastArrayList<Bounds> getShapeBounds();
+    public abstract NFastArrayList<Bounds> getShapesBounds();
 
     public Bounds getVisibleBounds()
     {
