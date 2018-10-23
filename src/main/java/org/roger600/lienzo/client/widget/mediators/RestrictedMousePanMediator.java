@@ -26,7 +26,7 @@ import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Transform;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.shared.GwtEvent;
-import org.roger600.lienzo.client.widget.InfiniteLienzoLayer;
+import org.roger600.lienzo.client.widget.InfiniteLayer;
 
 /**
  * This a fork of {@link com.ait.lienzo.client.core.mediator.MousePanMediator} however this implementation does not stop
@@ -36,9 +36,9 @@ import org.roger600.lienzo.client.widget.InfiniteLienzoLayer;
  */
 public class RestrictedMousePanMediator extends AbstractMediator
 {
-    private InfiniteLienzoLayer layer;
+    private InfiniteLayer     layer;
 
-    private TransformMediator   transformMediator;
+    private TransformMediator transformMediator;
 
     private Point2D   m_last             = new Point2D();
 
@@ -46,7 +46,7 @@ public class RestrictedMousePanMediator extends AbstractMediator
 
     private Transform m_inverseTransform = null;
 
-    public RestrictedMousePanMediator(final InfiniteLienzoLayer layer)
+    public RestrictedMousePanMediator(final InfiniteLayer layer)
     {
         this.layer = layer;
     }
@@ -87,7 +87,7 @@ public class RestrictedMousePanMediator extends AbstractMediator
         return getLayer().getViewport();
     }
 
-    InfiniteLienzoLayer getLayer()
+    InfiniteLayer getLayer()
     {
         return layer;
     }

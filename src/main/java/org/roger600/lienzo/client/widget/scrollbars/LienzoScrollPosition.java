@@ -18,7 +18,7 @@ package org.roger600.lienzo.client.widget.scrollbars;
 import com.ait.lienzo.client.core.shape.Viewport;
 import com.ait.lienzo.client.core.types.Transform;
 import org.roger600.lienzo.client.widget.Bounds;
-import org.roger600.lienzo.client.widget.InfiniteLienzoLayer;
+import org.roger600.lienzo.client.widget.InfiniteLayer;
 
 class LienzoScrollPosition
 {
@@ -98,7 +98,7 @@ class LienzoScrollPosition
         return gridLienzoScrollHandler.scrollBounds();
     }
 
-    private InfiniteLienzoLayer getLayer()
+    private InfiniteLayer getLayer()
     {
         return gridLienzoScrollHandler.getLayer();
     }

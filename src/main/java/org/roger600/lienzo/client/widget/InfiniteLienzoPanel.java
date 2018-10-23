@@ -49,7 +49,7 @@ public class InfiniteLienzoPanel extends FocusPanel implements RequiresResize,
 
     private final LienzoScrollHandler scrollHandler;
 
-    private       InfiniteLienzoLayer layer;
+    private       InfiniteLayer       layer;
 
     public InfiniteLienzoPanel()
     {
@@ -245,7 +245,7 @@ public class InfiniteLienzoPanel extends FocusPanel implements RequiresResize,
         getScrollHandler().setBounds(bounds);
     }
 
-    public LienzoPanel add(final InfiniteLienzoLayer layer)
+    public LienzoPanel add(final InfiniteLayer layer)
     {
         this.layer = setupDefaultGridLayer(layer);
 
@@ -256,7 +256,7 @@ public class InfiniteLienzoPanel extends FocusPanel implements RequiresResize,
         return lienzoPanel;
     }
 
-    private InfiniteLienzoLayer setupDefaultGridLayer(final InfiniteLienzoLayer layer)
+    private InfiniteLayer setupDefaultGridLayer(final InfiniteLayer layer)
     {
         // TODO
         // layer.addOnEnterPinnedModeCommand(this::refreshScrollPosition);
@@ -290,7 +290,7 @@ public class InfiniteLienzoPanel extends FocusPanel implements RequiresResize,
         return internalScrollPanel;
     }
 
-    public InfiniteLienzoLayer getLayer()
+    public InfiniteLayer getLayer()
     {
         return layer;
     }

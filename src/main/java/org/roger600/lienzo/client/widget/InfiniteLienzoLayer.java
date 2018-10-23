@@ -1,45 +1,26 @@
 package org.roger600.lienzo.client.widget;
 
-import com.ait.lienzo.client.core.shape.Layer;
-import com.ait.lienzo.client.core.shape.Viewport;
-import com.ait.lienzo.client.core.types.Transform;
+import com.ait.lienzo.client.core.shape.IPrimitive;
+import com.ait.lienzo.client.core.types.BoundingBox;
+import com.ait.tooling.nativetools.client.collection.NFastArrayList;
 
-public class InfiniteLienzoLayer extends Layer
+public class InfiniteLienzoLayer extends InfiniteLayer
 {
-    // TODO: ??
-    private static final int PADDING = 0;
-
-    private Bounds bounds;
-
-    public InfiniteLienzoLayer()
+    public NFastArrayList<Bounds> getShapeBounds()
     {
-        this.bounds = new Bounds(0,
-                                 0,
-                                 0,
-                                 0);
-    }
-
-    public Bounds getVisibleBounds()
-    {
-        updateVisibleBounds();
-        return bounds;
-    }
-
-    private void updateVisibleBounds()
-    {
-        final Viewport viewport  = getViewport();
-        Transform      transform = viewport.getTransform();
-        if (transform == null)
+        NFastArrayList<Bounds>        result = new NFastArrayList<>();
+        NFastArrayList<IPrimitive<?>> shapes = getChildNodes();
+        if (null != shapes)
         {
-            viewport.setTransform(transform = new Transform());
+            for (IPrimitive<?> shape : shapes)
+            {
+                BoundingBox boundingBox = shape.getBoundingBox();
+                result.add(new Bounds(shape.getX(),
+                                      shape.getY(),
+                                      boundingBox.getWidth(),
+                                      boundingBox.getHeight()));
+            }
         }
-        final double x = (PADDING - transform.getTranslateX()) / transform.getScaleX();
-        final double y = (PADDING - transform.getTranslateY()) / transform.getScaleY();
-        bounds.setX(x);
-        bounds.setY(y);
-        bounds.setHeight(Math.max(0,
-                                  (viewport.getHeight() - PADDING * 2) / transform.getScaleX()));
-        bounds.setWidth(Math.max(0,
-                                 (viewport.getWidth() - PADDING * 2) / transform.getScaleY()));
+        return result;
     }
 }

@@ -15,13 +15,12 @@
  */
 package org.roger600.lienzo.client.widget.scrollbars;
 
-import com.ait.lienzo.client.core.shape.IPrimitive;
 import com.ait.lienzo.client.core.shape.Viewport;
 import com.ait.tooling.common.api.java.util.function.BiPredicate;
 import com.ait.tooling.common.api.java.util.function.Function;
 import com.ait.tooling.nativetools.client.collection.NFastArrayList;
 import org.roger600.lienzo.client.widget.Bounds;
-import org.roger600.lienzo.client.widget.InfiniteLienzoLayer;
+import org.roger600.lienzo.client.widget.InfiniteLayer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,15 +39,16 @@ class LienzoScrollBounds
     }
 
     // TODO: Iterate always over all children??
-    private List<Double> getBounds(Function<IPrimitive, Double> function)
+    private List<Double> getBounds(Function<Bounds, Double> function)
     {
-        List<Double>                  result = new LinkedList<>();
-        NFastArrayList<IPrimitive<?>> shapes = getShapes();
-        if (null != shapes)
+        List<Double> result = new LinkedList<>();
+
+        NFastArrayList<Bounds> shapeBounds = getLayer().getShapeBounds();
+        if (null != shapeBounds)
         {
-            for (IPrimitive<?> shape : shapes)
+            for (Bounds bounds : shapeBounds)
             {
-                result.add(function.apply(shape));
+                result.add(function.apply(bounds));
             }
         }
         return result;
@@ -57,12 +57,12 @@ class LienzoScrollBounds
     Double maxBoundX()
     {
 
-        final List<Double> boundsValues = getBounds(new Function<IPrimitive, Double>()
+        final List<Double> boundsValues = getBounds(new Function<Bounds, Double>()
         {
             @Override
-            public Double apply(IPrimitive shape)
+            public Double apply(Bounds bounds)
             {
-                return shape.getX() + shape.getBoundingBox().getWidth();
+                return bounds.getX() + bounds.getWidth();
             }
         });
 
@@ -82,12 +82,12 @@ class LienzoScrollBounds
     Double maxBoundY()
     {
 
-        final List<Double> boundsValues = getBounds(new Function<IPrimitive, Double>()
+        final List<Double> boundsValues = getBounds(new Function<Bounds, Double>()
         {
             @Override
-            public Double apply(IPrimitive shape)
+            public Double apply(Bounds bounds)
             {
-                return shape.getY() + shape.getBoundingBox().getHeight();
+                return bounds.getY() + bounds.getHeight();
             }
         });
 
@@ -107,12 +107,12 @@ class LienzoScrollBounds
     Double minBoundX()
     {
 
-        final List<Double> boundsValues = getBounds(new Function<IPrimitive, Double>()
+        final List<Double> boundsValues = getBounds(new Function<Bounds, Double>()
         {
             @Override
-            public Double apply(IPrimitive shape)
+            public Double apply(Bounds bounds)
             {
-                return shape.getX();
+                return bounds.getX();
             }
         });
 
@@ -132,12 +132,12 @@ class LienzoScrollBounds
     Double minBoundY()
     {
 
-        final List<Double> boundsValues = getBounds(new Function<IPrimitive, Double>()
+        final List<Double> boundsValues = getBounds(new Function<Bounds, Double>()
         {
             @Override
-            public Double apply(IPrimitive shape)
+            public Double apply(Bounds bounds)
             {
-                return shape.getY();
+                return bounds.getY();
             }
         });
 
@@ -194,14 +194,9 @@ class LienzoScrollBounds
         this.defaultBounds = defaultBounds;
     }
 
-    InfiniteLienzoLayer getLayer()
+    InfiniteLayer getLayer()
     {
         return gridLienzoScrollHandler.getLayer();
-    }
-
-    private NFastArrayList<IPrimitive<?>> getShapes()
-    {
-        return getLayer().getLayer().getChildNodes();
     }
 
     private static double obtainValue(final List<Double> boundsValues,

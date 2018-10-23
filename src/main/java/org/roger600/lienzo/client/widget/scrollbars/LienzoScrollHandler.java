@@ -22,6 +22,7 @@ import com.ait.lienzo.client.widget.LienzoPanel;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import org.roger600.lienzo.client.widget.Bounds;
+import org.roger600.lienzo.client.widget.InfiniteLayer;
 import org.roger600.lienzo.client.widget.InfiniteLienzoLayer;
 import org.roger600.lienzo.client.widget.InfiniteLienzoPanel;
 import org.roger600.lienzo.client.widget.mediators.RestrictedMousePanMediator;
@@ -267,7 +268,7 @@ public class LienzoScrollHandler
         return panel;
     }
 
-    InfiniteLienzoLayer getLayer()
+    InfiniteLayer getLayer()
     {
         if (null == panel.getLayer())
         {
@@ -281,7 +282,7 @@ public class LienzoScrollHandler
         return getLayer().getViewport();
     }
 
-    InfiniteLienzoLayer emptyLayer()
+    InfiniteLayer emptyLayer()
     {
         return new InfiniteLienzoLayer();
     }

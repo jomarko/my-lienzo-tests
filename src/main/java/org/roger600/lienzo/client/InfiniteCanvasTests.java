@@ -1,31 +1,47 @@
 package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import org.roger600.lienzo.client.widget.InfiniteLayer;
 import org.roger600.lienzo.client.widget.InfiniteLienzoLayer;
 import org.roger600.lienzo.client.widget.InfiniteLienzoPanel;
+import org.roger600.lienzo.client.widget.InfiniteWiresLayer;
 
 public class InfiniteCanvasTests implements EntryPoint
 {
-    // private LienzoPanel panel = new LienzoPanel(600, 600);
-    private InfiniteLienzoPanel panel = new InfiniteLienzoPanel(600, 600);
+    private InfiniteLienzoPanel panel;
 
-    // private Layer       layer = new Layer();
-    private InfiniteLienzoLayer layer = new InfiniteLienzoLayer();
+    private InfiniteLayer       layer;
+
+    private WiresManager        wiresManager;
+
+    private static final boolean IS_WIRES = true;
 
     public void onModuleLoad()
     {
-        drawLayout();
-        drawThings();
-        getLayer().draw();
+        build();
+        draw();
     }
 
-    private void drawLayout()
+    private void build()
     {
+        panel = new InfiniteLienzoPanel(600, 600);
+        if (IS_WIRES)
+        {
+            layer = new InfiniteWiresLayer();
+        }
+        else
+        {
+            layer = new InfiniteLienzoLayer();
+        }
+
         final HorizontalPanel v = new HorizontalPanel();
         v.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
         v.getElement().getStyle().setBorderColor("#000000");
@@ -34,8 +50,20 @@ public class InfiniteCanvasTests implements EntryPoint
         RootPanel.get().add(v);
         v.add(panel);
 
-        // getLayer().setTransformable(true);
         panel.add(layer);
+    }
+
+    private void draw()
+    {
+        if (IS_WIRES)
+        {
+            drawWiresThings();
+        }
+        else
+        {
+            drawThings();
+        }
+        getLayer().draw();
     }
 
     private void drawThings()
@@ -53,6 +81,24 @@ public class InfiniteCanvasTests implements EntryPoint
 
         getLayer().add(r1);
         getLayer().add(r2);
+    }
+
+    private void drawWiresThings()
+    {
+        wiresManager = WiresManager.get(layer);
+        wiresManager.setContainmentAcceptor(IContainmentAcceptor.ALL);
+        wiresManager.setDockingAcceptor(IDockingAcceptor.ALL);
+        wiresManager.setControlPointsAcceptor(IControlPointsAcceptor.ALL);
+        wiresManager.setConnectionAcceptor(IConnectionAcceptor.ALL);
+        wiresManager.setLocationAcceptor(ILocationAcceptor.ALL);
+
+        MultiPath redPath = new MultiPath().rect(0, 0, 100, 100)
+                                           .setFillColor("#FF0000");
+        WiresShape redShape = new WiresShape(redPath);
+        wiresManager.register(redShape);
+        redShape.setLocation(new Point2D(100, 100));
+        redShape.setDraggable(true).getContainer().setUserData("red");
+        TestsUtils.addResizeHandlers(redShape);
     }
 
     private Layer getLayer()
