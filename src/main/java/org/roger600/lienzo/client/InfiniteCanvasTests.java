@@ -83,8 +83,8 @@ public class InfiniteCanvasTests implements EntryPoint
         layer = new Layer();
         previewLayer = new Layer();
 
-        panel.set(layer);
-        previewPanel.set(previewLayer);
+        panel.add(layer);
+        previewPanel.add(previewLayer);
 
         wiresManager = newWiresManager(layer);
         previewWiresManager = newWiresManager(previewLayer);
