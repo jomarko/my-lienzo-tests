@@ -8,6 +8,7 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Transform;
+import com.ait.lienzo.client.widget.panel.Bounds;
 import com.ait.lienzo.client.widget.panel.impl.LienzoResizablePanel;
 import com.ait.lienzo.client.widget.panel.impl.LienzoScrollablePanel;
 import com.google.gwt.core.client.EntryPoint;
@@ -93,6 +94,7 @@ public class InfiniteCanvasTests implements EntryPoint
 
         // Scale the preview panel.
         //scaleLienzoPanel();
+        previewPanel.setDefaultBounds(Bounds.relativeBox(PANEL_WIDTH, PANEL_HEIGHT));
         previewPanel.refresh();
     }
 

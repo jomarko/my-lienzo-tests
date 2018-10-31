@@ -8,7 +8,9 @@ import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
 import com.ait.lienzo.client.core.shape.GridLayer;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Line;
-import com.ait.lienzo.client.widget.LienzoPanel;
+import com.ait.lienzo.client.widget.panel.LienzoBoundsPanel;
+import com.ait.lienzo.client.widget.panel.LienzoPanel;
+import com.ait.lienzo.client.widget.panel.impl.LienzoScrollablePanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,26 +20,18 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.roger600.lienzo.client.casemodeller.CaseModellerContainmentTests;
-import org.roger600.lienzo.client.ks.CardinalIntersectKSTests;
-import org.roger600.lienzo.client.ks.MultiPathResizeTests;
-import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
-import org.roger600.lienzo.client.ks.WiresArrowsTests;
-import org.roger600.lienzo.client.ks.WiresDockingTests;
-import org.roger600.lienzo.client.ks.WiresResizesTests;
-import org.roger600.lienzo.client.ks.WiresSquaresTests;
 
 public class LienzoTests implements EntryPoint {
 
-    public static final int WIDE = 1200;
-    public static final int HIGH = 900;
+    public static final int WIDE = 800;
+    public static final int HIGH = 700;
 
     private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
             new SelectionManagerTests(),
-            new TextWrapTests(),
+           /* new TextWrapTests(),
             new AutoMagnetsConnectorsTests(),
             new CardinalIntersectSimpleTest(),
             new WiresDragHandlersTests(),
@@ -84,7 +78,7 @@ public class LienzoTests implements EntryPoint {
             new WiresArrowsTests(),
             new WiresSquaresTests(),
             new WiresResizesTests(),
-            new WiresDockingTests(),
+            new WiresDockingTests(),*/
     };
 
     private static final int MAX_BUTTONS_ROW = 7;
@@ -130,9 +124,9 @@ public class LienzoTests implements EntryPoint {
         testsPanel.getElement().getStyle().setBorderStyle( Style.BorderStyle.SOLID );
         testsPanel.getElement().getStyle().setBorderColor( "#000000" );
 
-        final LienzoPanel panel = new LienzoPanel(WIDE,
-                                                  HIGH);
-        applyGrid( panel );
+        final LienzoBoundsPanel panel       = LienzoScrollablePanel.newWiresPanel(WIDE, HIGH);
+        final LienzoPanel       lienzoPanel = panel.getLienzoPanel();
+        applyGrid( lienzoPanel );
         final Layer layer = new Layer();
 
         testsPanel.add( panel );
@@ -148,7 +142,7 @@ public class LienzoTests implements EntryPoint {
         }
 
         if ( test instanceof NeedsThePanel ) {
-            ((NeedsThePanel) test).setLienzoPanel(panel);
+            // TODO: ((NeedsThePanel) test).setLienzoPanel(lienzoPanel);
         }
 
         test.test( layer );
