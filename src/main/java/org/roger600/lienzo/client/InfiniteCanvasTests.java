@@ -8,14 +8,16 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Transform;
-import com.ait.lienzo.client.widget.panel.Bounds;
-import com.ait.lienzo.client.widget.panel.impl.LienzoResizablePanel;
-import com.ait.lienzo.client.widget.panel.impl.LienzoScrollablePanel;
+import com.ait.lienzo.client.widget.panel.impl.PreviewPanel;
+import com.ait.lienzo.client.widget.panel.scrollbars.ScrollablePanel;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InfiniteCanvasTests implements EntryPoint
 {
@@ -29,25 +31,25 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private static final boolean        IS_WIRES     = true;
 
-    private LienzoScrollablePanel panel;
+    private ScrollablePanel panel;
 
-    private Layer                 layer;
+    private Layer           layer;
 
-    private LienzoResizablePanel  previewPanel;
+    private PreviewPanel    previewPanel;
 
-    private Layer                 previewLayer;
+    private Layer           previewLayer;
 
-    private WiresManager          wiresManager;
+    private WiresManager    wiresManager;
 
-    private WiresManager          previewWiresManager;
+    private WiresManager    previewWiresManager;
 
-    private WiresShape            redShape;
+    private WiresShape      redShape;
 
-    private WiresShape            blueShape;
+    private WiresShape      blueShape;
 
-    private WiresShape            previewRedShape;
+    private WiresShape      previewRedShape;
 
-    private WiresShape            previewBlueShape;
+    private WiresShape      previewBlueShape;
 
     public void onModuleLoad()
     {
@@ -59,14 +61,15 @@ public class InfiniteCanvasTests implements EntryPoint
     {
         if (IS_WIRES)
         {
-            panel = LienzoScrollablePanel.newWiresPanel(PANEL_WIDTH, PANEL_HEIGHT);
-            previewPanel = LienzoResizablePanel.newWiresPanel(PANEL_WIDTH / 2, PANEL_HEIGHT / 2);
+            panel = ScrollablePanel.newWiresPanel(PANEL_WIDTH, PANEL_HEIGHT);
         }
         else
         {
-            panel = LienzoScrollablePanel.newPrimitivePanel(PANEL_WIDTH, PANEL_HEIGHT);
-            previewPanel = LienzoResizablePanel.newPrimitivePanel(PANEL_WIDTH / 2, PANEL_HEIGHT / 2);
+            panel = ScrollablePanel.newPrimitivePanel(PANEL_WIDTH, PANEL_HEIGHT);
         }
+        previewPanel = PreviewPanel.newPanel(PANEL_WIDTH / 2,
+                                             PANEL_HEIGHT / 2);
+        previewPanel.observe(panel);
 
         panel.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
         panel.getElement().getStyle().setBorderColor("#000000");
@@ -76,10 +79,23 @@ public class InfiniteCanvasTests implements EntryPoint
         previewPanel.getElement().getStyle().setBorderColor("#000000");
         previewPanel.getElement().getStyle().setBorderWidth(1, Style.Unit.PX);
 
-        final HorizontalPanel v = new HorizontalPanel();
+        final VerticalPanel   v = new VerticalPanel();
+        final HorizontalPanel h = new HorizontalPanel();
         RootPanel.get().add(v);
-        v.add(panel);
-        v.add(previewPanel);
+
+        Button resize = new Button("Resize");
+        resize.addClickHandler(new ClickHandler()
+        {
+            @Override public void onClick(ClickEvent event)
+            {
+                panel.updateSize(900, 900);
+            }
+        });
+        v.add(resize);
+
+        v.add(h);
+        h.add(panel);
+        h.add(previewPanel);
 
         layer = new Layer();
         previewLayer = new Layer();
@@ -94,8 +110,59 @@ public class InfiniteCanvasTests implements EntryPoint
 
         // Scale the preview panel.
         //scaleLienzoPanel();
-        previewPanel.setDefaultBounds(Bounds.relativeBox(PANEL_WIDTH, PANEL_HEIGHT));
-        previewPanel.refresh();
+        /*previewPanel.setDefaultBounds(Bounds.relativeBox(PANEL_WIDTH, PANEL_HEIGHT));
+        previewPanel.refresh();*/
+
+        testPanelsSync();
+    }
+
+    private void testPanelsSync()
+    {
+        /*panel.getLayer().getViewport().addViewportTransformChangedHandler(new ViewportTransformChangedHandler() {
+            @Override
+            public void onViewportTransformChanged(ViewportTransformChangedEvent event)
+            {
+                Transform transform = event.getViewport().getTransform();
+                GWT.log("TRAAAAAAAAAANSFF [" + transform + "]");
+                double translateX = transform.getTranslateX();
+                double translateY = transform.getTranslateY();
+                GWT.log("TRAAAAAAAAAANSFF2 [" + translateX + ", " + translateY  + "]");
+                //previewPanel.drawBoundsDelimiter(-translateX, -translateY);
+                previewPanel.batch();
+            }
+        });
+
+        panel.addScrollHandler(new ScrollHandler() {
+            @Override
+            public void onScroll(ScrollEvent event)
+            {
+                final LienzoScrollBars lienzoScrollBars = panel.getScrollHandler().scrollBars();
+                double h = lienzoScrollBars.getHorizontalScrollPosition();
+                double v = lienzoScrollBars.getVerticalScrollPosition();
+                GWT.log("SCROOOOOOOOOOOOOOOOOOOL [" + h + ", " + v + "]");
+            }
+        });*/
+
+        /*panel.addScrollPanelEventHandler(new ScrollPanelEventHandler() {
+            @Override public void onScroll(ScrollPanelEvent event)
+            {
+                GWT.log("SCROLL [" + event.getX() + ", " + event.getY() + "]");
+            }
+        });
+
+        panel.addScrollPanelResizeEventHandler(new ScrollPanelResizeEventHandler() {
+            @Override public void onResize(ScrollPanelResizeEvent event)
+            {
+                GWT.log("RESIZE [" + event.getWidth() + ", " + event.getHeight() + "]");
+            }
+        });
+
+        panel.addScrollPanelBoundsChangedEventHandler(new ScrollPanelBoundsChangedEventHandler() {
+            @Override public void onBoundsChanged(ScrollPanelBoundsChangedEvent event)
+            {
+                GWT.log("BOUNDS [" + event.getBounds() + "]");
+            }
+        });*/
     }
 
     private void scaleLienzoPanel()
@@ -200,7 +267,7 @@ public class InfiniteCanvasTests implements EntryPoint
     private void drawWiresThings()
     {
 
-        MultiPath redPath = new MultiPath().rect(0, 0, 100, 100)
+        MultiPath redPath = new MultiPath().rect(0, 0, 300, 300)
                                            .setFillColor("#FF0000");
         redShape = new WiresShape(redPath);
         wiresManager.register(redShape);
@@ -235,24 +302,24 @@ public class InfiniteCanvasTests implements EntryPoint
                     Point2D        location = locations[i];
                     if (shape.getGroup().getUserData().equals("red"))
                     {
-                        GWT.log("Moving RED TO [" + location + "]");
+                        // GWT.log("Moving RED TO [" + location + "]");
                         previewRedShape.setLocation(location.copy());
                     }
 
                     if (shape.getGroup().getUserData().equals("blue"))
                     {
-                        GWT.log("Moving BLUE TO [" + location + "]");
+                        // GWT.log("Moving BLUE TO [" + location + "]");
                         previewBlueShape.setLocation(location.copy());
                     }
                 }
 
-                previewPanel.refresh();
+                // previewPanel.refresh();
 
                 return true;
             }
         });
 
-        MultiPath redPath = new MultiPath().rect(0, 0, 100, 100)
+        MultiPath redPath = new MultiPath().rect(0, 0, 300, 300)
                                            .setFillColor("#FF0000");
         previewRedShape = new WiresShape(redPath);
         previewWiresManager.register(previewRedShape);
