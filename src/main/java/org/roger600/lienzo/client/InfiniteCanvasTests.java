@@ -1,23 +1,18 @@
 package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.mediator.*;
-import com.ait.lienzo.client.core.shape.Layer;
-import com.ait.lienzo.client.core.shape.Line;
-import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Transform;
+import com.ait.lienzo.client.widget.panel.LienzoPanel;
 import com.ait.lienzo.client.widget.panel.impl.PreviewPanel;
 import com.ait.lienzo.client.widget.panel.scrollbars.ScrollablePanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.*;
 
 public class InfiniteCanvasTests implements EntryPoint
 {
@@ -81,24 +76,15 @@ public class InfiniteCanvasTests implements EntryPoint
 
         final VerticalPanel   v = new VerticalPanel();
         final HorizontalPanel h = new HorizontalPanel();
-        RootPanel.get().add(v);
 
-        Button resize = new Button("Resize");
-        resize.addClickHandler(new ClickHandler()
-        {
-            @Override public void onClick(ClickEvent event)
-            {
-                panel.updateSize(900, 900);
-            }
-        });
-        v.add(resize);
+        addButtons(v);
 
         v.add(h);
         h.add(panel);
         h.add(previewPanel);
 
         layer = new Layer();
-        previewLayer = new Layer();
+        previewLayer = new Layer().setListening(false);
 
         panel.add(layer);
         previewPanel.add(previewLayer);
@@ -114,6 +100,50 @@ public class InfiniteCanvasTests implements EntryPoint
         previewPanel.refresh();*/
 
         testPanelsSync();
+
+        RootPanel.get().add(v);
+
+    }
+
+    private void addButtons(final Panel container) {
+        Button resize = new Button("Resize");
+        resize.addClickHandler(new ClickHandler()
+        {
+            @Override public void onClick(ClickEvent event)
+            {
+                panel.updateSize(900, 900);
+            }
+        });
+        container.add(resize);
+
+        Button changeOrder = new Button("Change order");
+        changeOrder.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                previewLayer.moveToTop();
+            }
+        });
+        container.add(changeOrder);
+    }
+
+    private void applyGrid( final LienzoPanel panel) {
+
+        // Grid.
+        Line line1 = new Line( 0, 0, 0, 0 )
+                .setStrokeColor( "#0000FF" )
+                .setAlpha( 0.2 );
+        Line line2 = new Line( 0, 0, 0, 0 )
+                .setStrokeColor( "#00FF00"  )
+                .setAlpha( 0.2 );
+
+        line2.setDashArray( 2,
+                            2 );
+
+        GridLayer gridLayer = new GridLayer(100, line1, 25, line2 );
+
+        panel.setBackgroundLayer( gridLayer );
     }
 
     private void testPanelsSync()
@@ -271,8 +301,9 @@ public class InfiniteCanvasTests implements EntryPoint
                                            .setFillColor("#FF0000");
         redShape = new WiresShape(redPath);
         wiresManager.register(redShape);
-        redShape.setLocation(new Point2D(300, 300));
+        redShape.setLocation(new Point2D(500, 500));
         redShape.setDraggable(true).getContainer().setUserData("red");
+        wiresManager.getMagnetManager().createMagnets( redShape );
         TestsUtils.addResizeHandlers(redShape);
 
         MultiPath bluePath = new MultiPath().rect(0, 0, 100, 100)
@@ -281,7 +312,11 @@ public class InfiniteCanvasTests implements EntryPoint
         wiresManager.register(blueShape);
         blueShape.setLocation(new Point2D(50, 50));
         blueShape.setDraggable(true).getContainer().setUserData("blue");
+        wiresManager.getMagnetManager().createMagnets( blueShape );
         TestsUtils.addResizeHandlers(blueShape);
+
+        TestsUtils.connect(blueShape.getMagnets(), 3, redShape.getMagnets(), 7, wiresManager);
+
     }
 
     private void drawPreviewWiresThings()
@@ -323,8 +358,9 @@ public class InfiniteCanvasTests implements EntryPoint
                                            .setFillColor("#FF0000");
         previewRedShape = new WiresShape(redPath);
         previewWiresManager.register(previewRedShape);
-        previewRedShape.setLocation(new Point2D(300, 300));
+        previewRedShape.setLocation(new Point2D(500, 500));
         previewRedShape.setDraggable(true).getContainer().setUserData("red");
+        previewWiresManager.getMagnetManager().createMagnets( previewRedShape );
 
         MultiPath bluePath = new MultiPath().rect(0, 0, 100, 100)
                                             .setFillColor("#0000FF");
@@ -332,6 +368,9 @@ public class InfiniteCanvasTests implements EntryPoint
         previewWiresManager.register(previewBlueShape);
         previewBlueShape.setLocation(new Point2D(50, 50));
         previewBlueShape.setDraggable(true).getContainer().setUserData("blue");
+        previewWiresManager.getMagnetManager().createMagnets( previewBlueShape );
+
+        TestsUtils.connect(previewBlueShape.getMagnets(), 3, previewRedShape.getMagnets(), 7, previewWiresManager);
 
         previewPanel.refresh();
     }
