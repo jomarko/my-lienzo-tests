@@ -1,18 +1,24 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.event.NodeMouseUpEvent;
+import com.ait.lienzo.client.core.event.NodeMouseUpHandler;
 import com.ait.lienzo.client.core.mediator.*;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Transform;
+import com.ait.lienzo.client.widget.panel.Bounds;
 import com.ait.lienzo.client.widget.panel.LienzoPanel;
 import com.ait.lienzo.client.widget.panel.impl.PreviewPanel;
 import com.ait.lienzo.client.widget.panel.scrollbars.ScrollablePanel;
+import com.ait.tooling.common.api.java.util.function.Supplier;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.*;
+import org.roger600.lienzo.client.panel.ResizeFlowPanel;
 
 public class InfiniteCanvasTests implements EntryPoint
 {
@@ -20,13 +26,15 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private final        IEventFilter[] panFilters   = new IEventFilter[]{EventFilter.SHIFT};
 
-    private static final int            PANEL_WIDTH  = 600;
+    private static final int            PANEL_WIDTH  = 900; // 600 -> 900
 
     private static final int            PANEL_HEIGHT = 600;
 
     private static final boolean        IS_WIRES     = true;
 
     private ScrollablePanel panel;
+
+    private ScrollabelPanelPresenter panelPresenter;
 
     private Layer           layer;
 
@@ -46,6 +54,13 @@ public class InfiniteCanvasTests implements EntryPoint
 
     private WiresShape      previewBlueShape;
 
+    private class ScrollabelPanelPresenter implements IsWidget {
+        @Override
+        public Widget asWidget()
+        {
+            return panel;
+        }
+    }
     public void onModuleLoad()
     {
         build();
@@ -62,8 +77,9 @@ public class InfiniteCanvasTests implements EntryPoint
         {
             panel = ScrollablePanel.newPrimitivePanel(PANEL_WIDTH, PANEL_HEIGHT);
         }
-        previewPanel = PreviewPanel.newPanel(PANEL_WIDTH / 2,
-                                             PANEL_HEIGHT / 2);
+        panelPresenter = new ScrollabelPanelPresenter();
+        previewPanel = PreviewPanel.newPanel(300,
+                                             150); // PANEL_HEIGHT / 2 -> 300x150
         previewPanel.observe(panel);
 
         panel.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
@@ -75,57 +91,141 @@ public class InfiniteCanvasTests implements EntryPoint
         previewPanel.getElement().getStyle().setBorderWidth(1, Style.Unit.PX);
 
         final VerticalPanel   v = new VerticalPanel();
+        final HorizontalPanel b = new HorizontalPanel();
         final HorizontalPanel h = new HorizontalPanel();
 
-        addButtons(v);
+        addButtons(b);
 
+        v.add(b);
         v.add(h);
-        h.add(panel);
+
+        final ResizeFlowPanel resizeFlowPanel = new ResizeFlowPanel();
+        resizeFlowPanel.addDomHandler(new ContextMenuHandler() {
+            @Override public void onContextMenu(ContextMenuEvent event)
+            {
+                GWT.log("PREVENING CONTEXT MENU EVENT!!");
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }, ContextMenuEvent.getType());
+
+        resizeFlowPanel.addAttachHandler(new AttachEvent.Handler()
+        {
+            @Override public void onAttachOrDetach(AttachEvent event)
+            {
+                if (event.isAttached())
+                {
+                    resizeFlowPanel.getElement().getParentElement().getStyle().setHeight(100.0, Style.Unit.PCT);
+                    resizeFlowPanel.getElement().getParentElement().getStyle().setWidth(100.0, Style.Unit.PCT);
+                }
+            }
+        });
+
+        resizeFlowPanel.add(panelPresenter);
+        h.add(resizeFlowPanel);
         h.add(previewPanel);
 
         layer = new Layer();
-        previewLayer = new Layer().setListening(false);
+        previewLayer = new Layer();
 
         panel.add(layer);
         previewPanel.add(previewLayer);
 
+        addPanelHandlers();
+
         wiresManager = newWiresManager(layer);
         previewWiresManager = newWiresManager(previewLayer);
 
+        applyGrid(panel);
+
         addMediators(layer);
-
-        // Scale the preview panel.
-        //scaleLienzoPanel();
-        /*previewPanel.setDefaultBounds(Bounds.relativeBox(PANEL_WIDTH, PANEL_HEIGHT));
-        previewPanel.refresh();*/
-
-        testPanelsSync();
 
         RootPanel.get().add(v);
 
     }
 
+    private void addPanelHandlers() {
+
+        panel.addMouseDownHandler(new MouseDownHandler() {
+            @Override public void onMouseDown(MouseDownEvent event)
+            {
+                GWT.log("MOUSE DOWN");;
+                //panel.setFocus(true);
+            }
+        });
+
+        panel.addMouseUpHandler(new MouseUpHandler() {
+            @Override public void onMouseUp(MouseUpEvent event)
+            {
+                GWT.log("MOUSE UP");;
+                //panel.setFocus(false);
+            }
+        });
+
+        panel.addKeyDownHandler(new KeyDownHandler() {
+            @Override public void onKeyDown(KeyDownEvent event)
+            {
+                GWT.log("KEY DOWN");;
+            }
+        });
+
+        panel.addKeyUpHandler(new KeyUpHandler() {
+            @Override public void onKeyUp(KeyUpEvent event)
+            {
+                GWT.log("KEY UP");;
+
+            }
+        });
+
+        panel.addKeyPressHandler(new KeyPressHandler() {
+            @Override public void onKeyPress(KeyPressEvent event)
+            {
+                GWT.log("KEY PRESS");;
+
+            }
+        });
+    }
+
     private void addButtons(final Panel container) {
-        Button resize = new Button("Resize");
-        resize.addClickHandler(new ClickHandler()
+        final Button resizePlus = new Button("Resize +");
+        resizePlus.addClickHandler(new ClickHandler()
         {
             @Override public void onClick(ClickEvent event)
             {
-                panel.updateSize(900, 900);
+                resizePanel(50);
             }
         });
-        container.add(resize);
+        container.add(resizePlus);
 
-        Button changeOrder = new Button("Change order");
-        changeOrder.addClickHandler(new ClickHandler()
+        final Button resizeLess = new Button("Resize -");
+        resizeLess.addClickHandler(new ClickHandler()
+        {
+            @Override public void onClick(ClickEvent event)
+            {
+                resizePanel(-50);
+            }
+        });
+        container.add(resizeLess);
+
+        Button resetViewport = new Button("Reset viewport");
+        resetViewport.addClickHandler(new ClickHandler()
         {
             @Override
             public void onClick(ClickEvent event)
             {
-                previewLayer.moveToTop();
+                panel.getLayer().getViewport().setTransform(new Transform());
+                panel.refresh();
             }
         });
-        container.add(changeOrder);
+        container.add(resetViewport);
+
+    }
+
+    private void resizePanel(int factor) {
+        int width = panel.getWidth();
+        int height = panel.getHeight();
+        panel.updateSize(width  + factor,
+                         height + factor);
     }
 
     private void applyGrid( final LienzoPanel panel) {
@@ -144,55 +244,6 @@ public class InfiniteCanvasTests implements EntryPoint
         GridLayer gridLayer = new GridLayer(100, line1, 25, line2 );
 
         panel.setBackgroundLayer( gridLayer );
-    }
-
-    private void testPanelsSync()
-    {
-        /*panel.getLayer().getViewport().addViewportTransformChangedHandler(new ViewportTransformChangedHandler() {
-            @Override
-            public void onViewportTransformChanged(ViewportTransformChangedEvent event)
-            {
-                Transform transform = event.getViewport().getTransform();
-                GWT.log("TRAAAAAAAAAANSFF [" + transform + "]");
-                double translateX = transform.getTranslateX();
-                double translateY = transform.getTranslateY();
-                GWT.log("TRAAAAAAAAAANSFF2 [" + translateX + ", " + translateY  + "]");
-                //previewPanel.drawBoundsDelimiter(-translateX, -translateY);
-                previewPanel.batch();
-            }
-        });
-
-        panel.addScrollHandler(new ScrollHandler() {
-            @Override
-            public void onScroll(ScrollEvent event)
-            {
-                final LienzoScrollBars lienzoScrollBars = panel.getScrollHandler().scrollBars();
-                double h = lienzoScrollBars.getHorizontalScrollPosition();
-                double v = lienzoScrollBars.getVerticalScrollPosition();
-                GWT.log("SCROOOOOOOOOOOOOOOOOOOL [" + h + ", " + v + "]");
-            }
-        });*/
-
-        /*panel.addScrollPanelEventHandler(new ScrollPanelEventHandler() {
-            @Override public void onScroll(ScrollPanelEvent event)
-            {
-                GWT.log("SCROLL [" + event.getX() + ", " + event.getY() + "]");
-            }
-        });
-
-        panel.addScrollPanelResizeEventHandler(new ScrollPanelResizeEventHandler() {
-            @Override public void onResize(ScrollPanelResizeEvent event)
-            {
-                GWT.log("RESIZE [" + event.getWidth() + ", " + event.getHeight() + "]");
-            }
-        });
-
-        panel.addScrollPanelBoundsChangedEventHandler(new ScrollPanelBoundsChangedEventHandler() {
-            @Override public void onBoundsChanged(ScrollPanelBoundsChangedEvent event)
-            {
-                GWT.log("BOUNDS [" + event.getBounds() + "]");
-            }
-        });*/
     }
 
     private void scaleLienzoPanel()
