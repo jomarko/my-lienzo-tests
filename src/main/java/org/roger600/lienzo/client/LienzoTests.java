@@ -10,6 +10,7 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Line;
 import com.ait.lienzo.client.widget.panel.LienzoBoundsPanel;
 import com.ait.lienzo.client.widget.panel.LienzoPanel;
+import com.ait.lienzo.client.widget.panel.impl.BoundsProviderFactory;
 import com.ait.lienzo.client.widget.panel.scrollbars.ScrollablePanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
@@ -124,7 +125,7 @@ public class LienzoTests implements EntryPoint {
         testsPanel.getElement().getStyle().setBorderStyle( Style.BorderStyle.SOLID );
         testsPanel.getElement().getStyle().setBorderColor( "#000000" );
 
-        final LienzoBoundsPanel panel       = ScrollablePanel.newWiresPanel(WIDE, HIGH);
+        final LienzoBoundsPanel panel       = new ScrollablePanel(new BoundsProviderFactory.WiresBoundsProvider(), WIDE, HIGH);
         final LienzoPanel       lienzoPanel = panel.getLienzoPanel();
         applyGrid( lienzoPanel );
         final Layer layer = new Layer();
